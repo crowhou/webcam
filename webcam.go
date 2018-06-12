@@ -50,6 +50,11 @@ func Open(path string) (*Webcam, error) {
 	return w, nil
 }
 
+// GetBusInfo returns this camera's bus info
+func (w *Webcam) GetBusInfo() string {
+	return w.busInfo
+}
+
 // Returns image formats supported by the device alongside with
 // their text description
 // Not that this function is somewhat experimental. Frames are not ordered in
