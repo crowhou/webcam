@@ -174,7 +174,7 @@ func checkCapabilities(fd uintptr) (busInfo string, supportsVideoCapture bool, s
 		return
 	}
 
-	busInfo = string(caps.bus_info)
+	busInfo = string([]byte(caps.bus_info[:]))
 	supportsVideoCapture = (caps.capabilities & V4L2_CAP_VIDEO_CAPTURE) != 0
 	supportsVideoStreaming = (caps.capabilities & V4L2_CAP_STREAMING) != 0
 	return
