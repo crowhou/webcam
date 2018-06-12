@@ -5,13 +5,15 @@ package webcam
 
 import (
 	"errors"
-	"golang.org/x/sys/unix"
 	"reflect"
 	"unsafe"
+
+	"golang.org/x/sys/unix"
 )
 
 // Webcam object
 type Webcam struct {
+	busInfo string
 	fd      uintptr
 	buffers [][]byte
 }
@@ -28,7 +30,7 @@ func Open(path string) (*Webcam, error) {
 		return nil, err
 	}
 
-	supportsVideoCapture, supportsVideoStreaming, err := checkCapabilities(fd)
+	busInfo, supportsVideoCapture, supportsVideoStreaming, err := checkCapabilities(fd)
 
 	if err != nil {
 		return nil, err
@@ -44,6 +46,7 @@ func Open(path string) (*Webcam, error) {
 
 	w := new(Webcam)
 	w.fd = uintptr(fd)
+	w.busInfo = busInfo
 	return w, nil
 }
 

@@ -164,7 +164,7 @@ type v4l2_control struct {
 	value int32
 }
 
-func checkCapabilities(fd uintptr) (supportsVideoCapture bool, supportsVideoStreaming bool, err error) {
+func checkCapabilities(fd uintptr) (busInfo string, supportsVideoCapture bool, supportsVideoStreaming bool, err error) {
 
 	caps := &v4l2_capability{}
 
@@ -174,6 +174,7 @@ func checkCapabilities(fd uintptr) (supportsVideoCapture bool, supportsVideoStre
 		return
 	}
 
+	busInfo = string(caps.bus_info)
 	supportsVideoCapture = (caps.capabilities & V4L2_CAP_VIDEO_CAPTURE) != 0
 	supportsVideoStreaming = (caps.capabilities & V4L2_CAP_STREAMING) != 0
 	return
