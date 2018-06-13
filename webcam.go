@@ -13,9 +13,10 @@ import (
 
 // Webcam object
 type Webcam struct {
-	busInfo string
-	fd      uintptr
-	buffers [][]byte
+	deviceInfo string
+	busInfo    string
+	fd         uintptr
+	buffers    [][]byte
 }
 
 // Open a webcam with a given path
@@ -30,7 +31,7 @@ func Open(path string) (*Webcam, error) {
 		return nil, err
 	}
 
-	busInfo, supportsVideoCapture, supportsVideoStreaming, err := checkCapabilities(fd)
+	deviceInfo, busInfo, supportsVideoCapture, supportsVideoStreaming, err := checkCapabilities(fd)
 
 	if err != nil {
 		return nil, err
@@ -46,8 +47,14 @@ func Open(path string) (*Webcam, error) {
 
 	w := new(Webcam)
 	w.fd = uintptr(fd)
+	w.deviceInfo = deviceInfo
 	w.busInfo = busInfo
 	return w, nil
+}
+
+// GetDeviceInfo returns this camera's device info
+func (w *Webcam) GetDeviceInfo() string {
+	return w.deviceInfo
 }
 
 // GetBusInfo returns this camera's bus info
