@@ -188,7 +188,8 @@ func (w *Webcam) ReadFrame() ([]byte, error) {
 		return nil, err
 	}
 
-	result := w.buffers[int(index)][:length]
+	result := make([]byte, length)
+	copy(result, w.buffers[int(index)])
 
 	err = mmapEnqueueBuffer(w.fd, index)
 
